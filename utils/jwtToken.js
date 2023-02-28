@@ -10,9 +10,13 @@ const sendToken = (user, statusCode, res, opt) => {
     ),
     httpOnly: true,
     SameSite: 'none',
-    secure: process.env.NODE_ENV === 'production'
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none'
   };
-
+  res.setHeader('set-cookie', [
+    'cookie1=value1; SameSite=Lax',
+    'cookie2=value2; SameSite=None; Secure',
+  ]);
   res.status(statusCode).cookie("token", token, options).json({
     success: true,
     user,
