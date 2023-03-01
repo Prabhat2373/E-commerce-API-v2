@@ -27,7 +27,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
       folder: "products",
     });
 
-    imagesLinks.push({
+    imagesLinks.push({ 
       public_id: result.public_id,
       url: result.secure_url,
     });
