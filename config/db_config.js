@@ -1,5 +1,5 @@
 module.exports = {
-    url: "mongodb+srv://prabhat10:prabhat2373@cluster0.2owkf.mongodb.net/?retryWrites=true&w=majority",
-    database: "Ecommerce",
-    imgBucket: "ProductPhotos",
+    url: process.env.DB_URL_CONFIG,
+    database: process.env.DB_NAME,
+    imgBucket: process.env.BUCKET_NAME,
   };
