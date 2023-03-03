@@ -33,11 +33,13 @@ const product = require("./routes/productRoute");
 const user = require("./routes/userRoute");
 const order = require("./routes/orderRoute");
 const payment = require("./routes/paymentRoute");
+const Cart = require("./routes/cartRoute");
 
 app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
+app.use("/api/v1", Cart);
 
 app.get("*", (req, res) => {
   res.status(404).json({
