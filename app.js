@@ -40,10 +40,10 @@ app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
 app.use("/api/v1", Cart);
-app.get('/',(req,res,next)=>{
+app.get('/', (req, res, next) => {
   res.status(200).json({
-    status:'working',
-    message:'hello from server'
+    status: 'working',
+    message: 'hello from server'
   })
 })
 app.get("*", (req, res) => {
