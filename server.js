@@ -1,6 +1,6 @@
-const app = require("../app");
+const app = require("./app");
 const cloudinary = require("cloudinary");
-const connectDatabase = require("../config/database");
+const connectDatabase = require("./config/database");
 const PORT = 8001 || process.env.PORT
 
 // Handling Uncaught Exception
