@@ -14,8 +14,22 @@ const signToken = (id) => {
 exports.AddToCart = catchAsyncErrors(async (req, res, next) => {
     console.log(req.body.name)
     const userId = req.params.id;
+    const productId = req.body.productId;
+    const hasDuplicateProduct = await Cart.find({ productId });
+    hasDuplicateProduct.forEach((element) => {
+        console.log('ELEMENT', element)
+        if (element.userId === userId && element.productId === productId) {
+            res.status(400).json({
+                status: 'BAD REQUEST',
+                message: 'duplicate product'
+            })
+            return
+        }
+    })
+    // console.log('is duplicate', hasDuplicateProduct)
     const cart = await Cart.create({
         userId,
+        productId: req.body.productId,
         name: req.body.name,
         price: req.body.price,
         quantity: req.body.quantity,
@@ -38,7 +52,7 @@ exports.GetCartItems = catchAsyncErrors(async (req, res, next) => {
 })
 exports.removeCartItem = catchAsyncErrors(async (req, res, next) => {
     const ID = req.params.id;
-    const deleteCartItem = await Cart.deleteOne({ _id: ID });
+    await Cart.deleteOne({ _id: ID });
     res.status(204).json({
         success: true,
         message: 'cart item deleted'
