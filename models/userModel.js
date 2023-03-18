@@ -41,7 +41,18 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-
+  billing_info: {
+    billing_first_name: String,
+    billing_last_name:String,
+    billing_email:String,
+    billing_phone:String,
+    billing_address_line1:String,
+    billing_address_line2:String,
+    billing_city:String,
+    billing_state:String,
+    billing_zip:String,
+    billing_country:String,
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });

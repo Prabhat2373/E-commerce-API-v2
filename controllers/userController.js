@@ -55,7 +55,32 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 
   sendToken(user, 200, res);
 });
-
+exports.AddBillingDetails = catchAsyncErrors(async (req, res, next) => {
+  const ID = req.params.id;
+  console.log('body', req.body);
+  const billing = await User.findOneAndUpdate({ _id: ID }, {
+    billing_info: {
+      billing_first_name: req.body.first_name,
+      billing_last_name: req.body.last_name,
+      billing_email: req.body.email,
+      billing_phone: req.body.phone,
+      billing_address_line1: req.body.address1,
+      billing_address_line2: req.body.address2,
+      billing_city: req.body.city,
+      billing_state: req.body.state,
+      billing_zip: req.body.zip,
+      billing_country: req.body.country
+    }
+  })
+  // console.log(billing);
+  // next(res)
+  res.status(200).json({
+    status: 'success',
+    message: 'Billing Details Added Successfully',
+    data: billing
+  })
+  // next()
+})
 // Logout User
 exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie("token", null, {
@@ -148,7 +173,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   console.log(req.user)
   const user = await User.findById(req.user.id);
-
+  console.log('user', user)
   res.status(200).json({
     success: true,
     user,
@@ -279,3 +304,13 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     message: "User Deleted Successfully",
   });
 });
+
+
+exports.getBillingDetails = catchAsyncErrors(async (req, res) => {
+  const billing = await User.findById(req.params.id);
+  res.status(200).json({
+    status: 'success',
+    message: 'address found successfully',
+    payload: billing.billing_info
+  })
+})

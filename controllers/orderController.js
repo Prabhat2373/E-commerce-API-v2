@@ -4,6 +4,7 @@ const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 // Create new Order
+
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   console.log("BODY:", req.body.shippingInfo)
   const {

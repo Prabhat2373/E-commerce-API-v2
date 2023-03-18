@@ -12,6 +12,8 @@ const {
   getSingleUser,
   updateUserRole,
   deleteUser,
+  AddBillingDetails,
+  getBillingDetails,
 } = require("../controllers/userController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
@@ -20,6 +22,7 @@ const router = express.Router();
 router.route("/register").post(registerUser);
 
 router.route("/login").post(loginUser);
+router.route('/billing_info/:id').post(AddBillingDetails).get(getBillingDetails)
 
 router.route("/password/forgot").post(forgotPassword);
 
