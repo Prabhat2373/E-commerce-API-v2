@@ -11,6 +11,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({ path: "./config.env" });
 }
 app.use(cors({ origin: process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://e-commerce-web-4w03.onrender.com', credentials: true, exposedHeaders: ['Set-Cookie', 'Date', 'ETag', 'sameSite'] }))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
   res.header('Content-Type', 'application/json;charset=UTF-8')
   res.header('Access-Control-Allow-Credentials', true)
