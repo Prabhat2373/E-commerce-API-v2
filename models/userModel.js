@@ -53,17 +53,7 @@ const userSchema = new mongoose.Schema({
     billing_zip: String,
     billing_country: String,
   },
-  cart: [
-    {
-      userId: { type: String, required: false },
-      productId: { type: String, required: false },
-      name: { type: String, required: false },
-      price: { type: String, required: false },
-      quantity: { type: String, required: false },
-      description: { type: String, required: false },
-      image: { type: String, required: false },
-    },
-  ],
+
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });
