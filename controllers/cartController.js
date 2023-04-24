@@ -5,12 +5,6 @@ const Cart = require('../models/cartModel');
 const user = require('../models/userModel');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-};
-
 exports.AddToCart = catchAsyncErrors(async (req, res, next) => {
   console.log(req.body.name);
   const userId = req.params.id;
@@ -52,7 +46,7 @@ exports.GetCartItems = catchAsyncErrors(async (req, res, next) => {
 });
 exports.removeCartItem = catchAsyncErrors(async (req, res, next) => {
   const ID = req.params.id;
-  await Cart.deleteOne({ _id: ID });
+  await Cart.deleteOne({ productId: ID });
   res.status(204).json({
     success: true,
     message: 'cart item deleted',
