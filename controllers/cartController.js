@@ -8,11 +8,11 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 exports.AddToCart = catchAsyncErrors(async (req, res, next) => {
   console.log(req.body.name);
   const userId = req.params.id;
-  const productId = req.body.productId;
-  const hasDuplicateProduct = await Cart.find({ productId });
+  const product = req.body.product;
+  const hasDuplicateProduct = await Cart.find({ product });
   hasDuplicateProduct.forEach((element) => {
     console.log('ELEMENT', element);
-    if (element.userId === userId && element.productId === productId) {
+    if (element.user === userId && element.product === product) {
       res.status(400).json({
         status: 'BAD REQUEST',
         message: 'duplicate product',
@@ -22,8 +22,8 @@ exports.AddToCart = catchAsyncErrors(async (req, res, next) => {
   });
   // console.log('is duplicate', hasDuplicateProduct)
   const cart = await Cart.create({
-    userId,
-    productId: req.body.productId,
+    user: req.body.user,
+    product: req.body.product,
     name: req.body.name,
     price: req.body.price,
     quantity: req.body.quantity,
@@ -36,8 +36,8 @@ exports.AddToCart = catchAsyncErrors(async (req, res, next) => {
   });
 });
 exports.GetCartItems = catchAsyncErrors(async (req, res, next) => {
-  const userId = req.params.id;
-  const cartItems = await Cart.find({ userId });
+  const user = req.params.id;
+  const cartItems = await Cart.find({ user }).populate('user');
 
   res.status(200).json({
     success: true,
@@ -46,15 +46,15 @@ exports.GetCartItems = catchAsyncErrors(async (req, res, next) => {
 });
 exports.removeCartItem = catchAsyncErrors(async (req, res, next) => {
   const ID = req.params.id;
-  await Cart.deleteOne({ productId: ID });
-  res.status(204).json({
+  await Cart.deleteOne({ product: ID });
+  res.status(200).json({
     success: true,
     message: 'cart item deleted',
   });
 });
 
 exports.removeCart = catchAsyncErrors(async (req, res) => {
-  const response = await Cart.deleteMany({ userId: req.user.id });
+  const response = await Cart.deleteMany({ user: req.user.id });
   console.log('response', response);
   res.status(204).json({
     status: 'success',
