@@ -182,6 +182,7 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
   const isReviewed = product.reviews.find(
     (rev) => rev.user.toString() === req.user.id.toString()
   );
+  console.log('isReviewd', isReviewed);
 
   if (isReviewed) {
     product.reviews.forEach((rev) => {
@@ -205,6 +206,7 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+    message: 'Review Added Successfully!',
   });
 });
 

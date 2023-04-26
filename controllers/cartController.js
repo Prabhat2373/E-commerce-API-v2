@@ -46,7 +46,8 @@ exports.GetCartItems = catchAsyncErrors(async (req, res, next) => {
 });
 exports.removeCartItem = catchAsyncErrors(async (req, res, next) => {
   const ID = req.params.id;
-  await Cart.deleteOne({ product: ID });
+  console.log('idddd', ID);
+  await Cart.deleteOne({ product: ID, user: req.user.id });
   res.status(200).json({
     success: true,
     message: 'cart item deleted',
