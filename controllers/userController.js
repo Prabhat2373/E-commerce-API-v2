@@ -51,7 +51,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   const isPasswordMatched = await user.comparePassword(password);
 
   if (!isPasswordMatched) {
-    return next(new ErrorHander('Invalid email or password', 401));
+    return next(new ErrorHander('Invalid password', 401));
   }
 
   sendToken(user, 200, res);
@@ -76,15 +76,14 @@ exports.AddBillingDetails = catchAsyncErrors(async (req, res, next) => {
       },
     }
   );
-  // console.log(billing);
-  // next(res)
+
   res.status(200).json({
     status: 'success',
     message: 'Billing Details Added Successfully',
     data: billing,
   });
-  // next()
 });
+
 // Logout User
 exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.cookie('token', null, {
