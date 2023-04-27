@@ -12,15 +12,15 @@ const sendToken = (user, statusCode, res, opt) => {
     secure: false,
   };
   if (process.env.NODE_ENV) {
-    options.secure = true
-    options.SameSite = 'none'
-    options.sameSite = 'none'
+    options.secure = true;
+    options.SameSite = 'none';
+    options.sameSite = 'none';
   }
-  res.status(statusCode).cookie("token", token, options).json({
+  res.status(statusCode).cookie('token', token, options).json({
     success: true,
     user,
     token,
-    OPT: opt
+    OPT: opt,
   });
 };
 

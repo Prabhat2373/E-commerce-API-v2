@@ -1,30 +1,30 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
   shippingInfo: {
-    address: {
+    billing_address_line1: {
       type: String,
       required: true,
     },
-    city: {
-      type: String,
-      required: true,
-    },
-
-    state: {
+    billing_city: {
       type: String,
       required: true,
     },
 
-    country: {
+    billing_state: {
       type: String,
       required: true,
     },
-    pinCode: {
+
+    billing_country: {
+      type: String,
+      required: true,
+    },
+    billing_zip: {
       type: Number,
       required: true,
     },
-    phoneNo: {
+    billing_phone: {
       type: Number,
       required: true,
     },
@@ -47,17 +47,22 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      product: {
+      productId: {
         type: mongoose.Schema.ObjectId,
-        ref: "Product",
+        ref: 'Product',
         required: true,
       },
     },
   ],
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: true,
+    ref: 'User',
+    required: false,
+  },
+  cart: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Cart',
+    required: false,
   },
   paymentInfo: {
     id: {
@@ -96,7 +101,7 @@ const orderSchema = new mongoose.Schema({
   orderStatus: {
     type: String,
     required: true,
-    default: "Processing",
+    default: 'Processing',
   },
   deliveredAt: Date,
   createdAt: {
@@ -105,4 +110,4 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Order", orderSchema);
+module.exports = mongoose.model('Order', orderSchema);
