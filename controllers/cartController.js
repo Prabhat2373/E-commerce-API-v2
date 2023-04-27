@@ -1,39 +1,37 @@
-const { promisify } = require('util');
-const jwt = require('jsonwebtoken');
-const Product = require('../models/productModel');
 const Cart = require('../models/cartModel');
-const user = require('../models/userModel');
+
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
 exports.AddToCart = catchAsyncErrors(async (req, res, next) => {
   console.log(req.body.name);
   const userId = req.params.id;
   const product = req.body.product;
-  const hasDuplicateProduct = await Cart.find({ product });
-  hasDuplicateProduct.forEach((element) => {
-    console.log('ELEMENT', element);
-    if (element.user === userId && element.product === product) {
-      res.status(400).json({
-        status: 'BAD REQUEST',
-        message: 'duplicate product',
-      });
-      return;
-    }
-  });
+
+  const hasDuplicateProduct = await Cart.findOne({ product, user: userId });
+
   // console.log('is duplicate', hasDuplicateProduct)
-  const cart = await Cart.create({
-    user: req.body.user,
-    product: req.body.product,
-    name: req.body.name,
-    price: req.body.price,
-    quantity: req.body.quantity,
-    description: req.body.description,
-    image: req.body.image,
-  });
-  res.status(200).json({
-    success: true,
-    cart,
-  });
+  if (hasDuplicateProduct) {
+    res.status(400).json({
+      success: false,
+      message: 'Product Already In cart!',
+    });
+  } else {
+    const cart = await Cart.create({
+      user: req.body.user,
+      product: req.body.product,
+      name: req.body.name,
+      price: req.body.price,
+      quantity: req.body.quantity,
+      description: req.body.description,
+      image: req.body.image,
+    });
+    res.status(200).json({
+      success: true,
+      data: { ...cart },
+      message: 'Item added to cart!',
+    });
+  }
+  next();
 });
 exports.GetCartItems = catchAsyncErrors(async (req, res, next) => {
   const user = req.params.id;

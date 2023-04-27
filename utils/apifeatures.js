@@ -9,7 +9,7 @@ class ApiFeatures {
       ? {
           name: {
             $regex: this.queryStr.keyword,
-            $options: "i",
+            $options: 'i',
           },
         }
       : {};
@@ -21,7 +21,7 @@ class ApiFeatures {
   filter() {
     const queryCopy = { ...this.queryStr };
     //   Removing some fields for category
-    const removeFields = ["keyword", "page", "limit"];
+    const removeFields = ['keyword', 'page', 'limit', 'sort'];
 
     removeFields.forEach((key) => delete queryCopy[key]);
 
@@ -31,6 +31,24 @@ class ApiFeatures {
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
 
     this.query = this.query.find(JSON.parse(queryStr));
+
+    // Sort by products
+    console.log('features');
+    console.log('query', this.queryStr);
+    switch (this.queryStr.sort) {
+      case 'priceAsc':
+        console.log('ASSENDING');
+        this.query = this.query.sort('price');
+      case 'priceDsc':
+        this.query = this.query.sort('-price');
+
+      case 'ratingAsc':
+        console.log('by Rating');
+        this.query = this.query.sort('rating');
+
+      case 'ratingDsc':
+        this.query = this.query.sort('-rating');
+    }
 
     return this;
   }
