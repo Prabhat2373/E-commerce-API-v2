@@ -320,13 +320,9 @@ exports.getBillingDetails = catchAsyncErrors(async (req, res) => {
 exports.addToCartProducts = catchAsyncErrors(async (req, res) => {
   console.log('body', req.body);
   const product_id = await User.findOne({
-    cart: { $elemMatch: { productId: req.body.productId } },
+    cart: { $elemMatch: { product: req.body.product } },
   });
-  // console.log('product', product_id);
-  // if (req.body.productId === product_id) {
-  //   console.log('product', product_id);
-  //   return;
-  // }
+
   const CartItem = await User.updateOne(
     { _id: req.user.id },
     {
