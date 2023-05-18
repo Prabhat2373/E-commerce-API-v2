@@ -21,6 +21,7 @@ const sendToken = (user, statusCode, res, opt) => {
     user,
     token,
     OPT: opt,
+    message: 'User Registered Successfully!',
   });
 };
 
