@@ -11,17 +11,17 @@ const sendToken = (user, statusCode, res, opt) => {
     httpOnly: true,
     secure: false,
   };
-  if (process.env.NODE_ENV) {
+  if (process.env.NODE_ENV === "production") {
     options.secure = true;
-    options.SameSite = 'none';
-    options.sameSite = 'none';
+    options.SameSite = "none";
+    options.sameSite = "none";
   }
-  res.status(statusCode).cookie('token', token, options).json({
+  console.log("options", options);
+  res.status(statusCode).cookie("token", token, options).json({
     success: true,
     user,
     token,
-    OPT: opt,
-    message: 'User Registered Successfully!',
+    message: "User Registered Successfully!",
   });
 };
 
